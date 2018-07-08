@@ -194,24 +194,24 @@ coorarray inside_d_minimum_distance(float* d,coorarray inside_d,int length,coora
     _quicksort_by_one_di(inside_d,1,0,length-1);
                                                            //遍历，每个在2d范围内搜索，计算dis，记录小于d的
     for (int i=0;i<length;i++) {
-        if ((i-1)>=0&&(inside_d[i][1]-inside_d[i-1][1])<*d) {    //每次只需要计算临近的距离即可（隔一个的，即使距离仍在d内，也是在下一个点的时候取得最小值）
-            float dis=sqrt((inside_d[i][0]-inside_d[i-1][0])*(inside_d[i][0]-inside_d[i-1][0])+(inside_d[i][1]-inside_d[i-1][1])*(inside_d[i][1]-inside_d[i-a][1]));
+        for (int a=1;(i-a)>=0&&(inside_d[i][1]-inside_d[i-a][1])<*d; a++) {
+            float dis=sqrt((inside_d[i][0]-inside_d[i-a][0])*(inside_d[i][0]-inside_d[i-a][0])+(inside_d[i][1]-inside_d[i-a][1])*(inside_d[i][1]-inside_d[i-a][1]));
             if (dis<*d) {                                  //每次更新修改当前数对
                 *d=dis;
                 minicoora[0][0]=inside_d[i][0];
                 minicoora[0][1]=inside_d[i][1];
-                minicoora[1][0]=inside_d[i-1][0];
-                minicoora[1][1]=inside_d[i-1][1];
+                minicoora[1][0]=inside_d[i-a][0];
+                minicoora[1][1]=inside_d[i-a][1];
             }
         }
-        if (((i+1)<length)&&(inside_d[i+1][1]-inside_d[i][1])<*d) {
-            float dis=sqrt((inside_d[i+1][0]-inside_d[i][0])*(inside_d[i+1][0]-inside_d[i][0])+(inside_d[i+1][1]-inside_d[i][1])*(inside_d[i+a][1]-inside_d[i][1]));
+        for (int a=1;((i+a)<length)&&(inside_d[i+a][1]-inside_d[i][1])<*d; a++) {
+            float dis=sqrt((inside_d[i+a][0]-inside_d[i][0])*(inside_d[i+a][0]-inside_d[i][0])+(inside_d[i+a][1]-inside_d[i][1])*(inside_d[i+a][1]-inside_d[i][1]));
             if (dis<*d) {
                 *d=dis;
                 minicoora[0][0]=inside_d[i][0];
                 minicoora[0][1]=inside_d[i][1];
-                minicoora[1][0]=inside_d[i+1][0];
-                minicoora[1][1]=inside_d[i+1][1];
+                minicoora[1][0]=inside_d[i+a][0];
+                minicoora[1][1]=inside_d[i+a][1];
             }
         }
     }
